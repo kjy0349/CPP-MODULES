@@ -1,6 +1,6 @@
-SRC = Fixed.cpp main.cpp
+SRC = ClapTrap.cpp main.cpp
 CC = c++
-NAME = fix
+NAME = trap
 
 CPPFLAGS = -Wall -Wextra -Werror
 OBJS = $(SRC:.cpp=.o)

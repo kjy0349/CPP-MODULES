@@ -13,9 +13,7 @@ Fixed::Fixed(const Fixed& obj)
 Fixed& Fixed::operator=(const Fixed& obj) 
 {
 	if (this != &obj)
-	{
-		this->value = obj.getRawBits();
-	}
+		setRawBits(obj.getRawBits());
 	return (*this);
 }
 
@@ -114,7 +112,7 @@ Fixed	Fixed::operator/(Fixed const &ref) const
 	return (ret);
 }
 
-Fixed&	Fixed::operator++(void)
+Fixed	&Fixed::operator++(void)
 {
 	this->value++;
 	return (*this);
@@ -144,7 +142,7 @@ const Fixed	Fixed::operator--(int)
 
 Fixed&	Fixed::min(Fixed &ref1, Fixed &ref2)
 {
-	if (ref1 <= ref2)
+	if (ref1 < ref2)
 		return ref1;
 	else
 		return ref2;
@@ -152,7 +150,7 @@ Fixed&	Fixed::min(Fixed &ref1, Fixed &ref2)
 
 const Fixed&	Fixed::min(Fixed const &ref1, Fixed const &ref2)
 {
-	if (ref1 <= ref2)
+	if (ref1 < ref2)
 		return ref1;
 	else
 		return ref2;
@@ -160,7 +158,7 @@ const Fixed&	Fixed::min(Fixed const &ref1, Fixed const &ref2)
 
 Fixed&	Fixed::max(Fixed &ref1, Fixed &ref2)
 {
-	if (ref1 >= ref2)
+	if (ref1 > ref2)
 		return ref1;
 	else
 		return ref2;
@@ -168,7 +166,7 @@ Fixed&	Fixed::max(Fixed &ref1, Fixed &ref2)
 
 const Fixed&	Fixed::max(Fixed const &ref1, Fixed const &ref2)
 {
-	if (ref1 >= ref2)
+	if (ref1 > ref2)
 		return ref1;
 	else
 		return ref2;
