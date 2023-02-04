@@ -6,7 +6,7 @@ Cat::Cat(void)
 	std::cout << "Cat Class Constructor called" << std::endl;
 }
 
-Cat::Cat(const Cat& obj) 
+Cat::Cat(const Cat& obj)
 {
 	this->type_ = obj.type_;
 	std::cout << "Cat Class copy constructor called" << std::endl;

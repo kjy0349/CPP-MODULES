@@ -32,5 +32,6 @@ int main()
 	i = NULL;
 	delete wrong;
 	wrong = NULL;
+
 	return 0;
 }
