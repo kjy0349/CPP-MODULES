@@ -4,7 +4,7 @@
 # include <iostream>
 # include <exception>
 
-class Form;
+class AForm;
 
 class Bureaucrat {
 	private:
@@ -30,9 +30,9 @@ class Bureaucrat {
 		void decrementGrade(void);
 		std::string getName() const;
 		int getGrade() const;
-		void signForm(Form& f) const;
+		void signForm(AForm& f) const;
 
-		void executeForm(const Form & form);
+		void executeForm(const AForm & form);
 };
 
 

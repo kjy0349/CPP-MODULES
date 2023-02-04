@@ -3,9 +3,9 @@
 
 # include <iostream>
 # include <fstream>
-# include "Form.hpp"
+# include "AForm.hpp"
 
-class ShrubberyCreationForm : public Form
+class ShrubberyCreationForm : public AForm
 {
 	private:
 		ShrubberyCreationForm(void);
@@ -16,7 +16,7 @@ class ShrubberyCreationForm : public Form
 		~ShrubberyCreationForm(void);
 		ShrubberyCreationForm(std::string target);
 		void execute(const Bureaucrat& b) const;
-		Form* clone(std::string name) const;
+		AForm* clone(std::string name) const;
 };
 
 #endif

@@ -27,6 +27,8 @@ int main()
 		std::cout << std::endl;
 		b.incrementGrade();
 		std::cout << b << std::endl;
+		a = b;
+		std::cout << a << std::endl;;
 		b.incrementGrade();
 	}
 	catch(const std::exception& e)

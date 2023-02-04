@@ -1,6 +1,6 @@
 #include "RobotomyRequestForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& obj) : Form(obj)
+RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& obj) : AForm(obj)
 {
 }
 
@@ -16,7 +16,7 @@ RobotomyRequestForm::~RobotomyRequestForm(void)
 {
 }
 
-RobotomyRequestForm::RobotomyRequestForm(std::string target) : Form(target, 72, 45)
+RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm(target, 72, 45)
 {
 }
 
@@ -38,7 +38,7 @@ void RobotomyRequestForm::execute(const Bureaucrat& b) const
 	}
 }
 
-Form* RobotomyRequestForm::clone(std::string name) const
+AForm* RobotomyRequestForm::clone(std::string name) const
 {
 	return (new RobotomyRequestForm(name));
 }

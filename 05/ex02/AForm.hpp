@@ -5,19 +5,18 @@
 
 class Bureaucrat;
 
-class Form {
+class AForm {
 	private:
 		const std::string name_;
 		bool signed_;
 		const int signGrade_;
 		const int execGrade_;
-		
-		Form(void);
+		AForm(void);
 	public:
-		Form(const Form& obj);
-		Form& operator=(const Form& obj);
-		~Form(void);
-		Form(std::string name, int signGrade, int execGrade);
+		AForm(const AForm& obj);
+		AForm& operator=(const AForm& obj);
+		virtual ~AForm(void);
+		AForm(std::string name, int signGrade, int execGrade);
 		class GradeTooHighException : public std::exception
 		{
 			public:
@@ -33,8 +32,18 @@ class Form {
 		int getSignGrade(void) const;
 		int getExecGrade(void) const;
 		void beSigned(const Bureaucrat& b);
+
+		class ThisIsNotSignedException : public std::exception
+		{
+			public:
+			const char * what(void) const throw();
+		};
+		virtual void execute(const Bureaucrat& b) const = 0;
+		void checkExec(const Bureaucrat& b) const;
+		void setName(std::string name);
+		void setSigned(bool b);
 };
 
-std::ostream& operator<<(std::ostream& out, const Form& f);
+std::ostream& operator<<(std::ostream& out, const AForm& f);
 
 #endif

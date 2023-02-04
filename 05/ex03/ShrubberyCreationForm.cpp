@@ -1,6 +1,6 @@
 #include "ShrubberyCreationForm.hpp"
 
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& obj) : Form(obj)
+ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& obj) : AForm(obj)
 {
 }
 
@@ -16,7 +16,7 @@ ShrubberyCreationForm::~ShrubberyCreationForm(void)
 {
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target) : Form(target, 145, 137)
+ShrubberyCreationForm::ShrubberyCreationForm(std::string target) : AForm(target, 145, 137)
 {
 }
 
@@ -35,7 +35,7 @@ void ShrubberyCreationForm::execute(const Bureaucrat& b) const
 		return ; 
 	}
 	
-	std::string contents = 	
+	std::string contents = 	                                                 
 "                           %                         %            \n\
  @@@     %    @@     @@@@                                  *       \n\
     @@ %     @  %   @   %          %               ;      ***      \n\
@@ -66,7 +66,7 @@ void ShrubberyCreationForm::execute(const Bureaucrat& b) const
 	std::cout << "make " << outfile << " done." << std::endl;
 }
 
-Form* ShrubberyCreationForm::clone(std::string name) const
+AForm* ShrubberyCreationForm::clone(std::string name) const
 {
 	return (new ShrubberyCreationForm(name));
 }

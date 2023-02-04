@@ -26,7 +26,7 @@ Intern::~Intern(void)
 	delete f[2];
 }
 
-Form* Intern::makeForm(std::string type, std::string name)
+AForm* Intern::makeForm(std::string type, std::string name)
 {
 	std::string types[3] = {"shrubbery creation", "robotomy request", "presidential pardon"};
 

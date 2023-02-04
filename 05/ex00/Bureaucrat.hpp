@@ -12,12 +12,12 @@ class Bureaucrat {
 		class GradeTooHighException : public std::exception
 		{
 			public:
-			const char * what(void) const throw();
+				const char * what(void) const throw();
 		};
 		class GradeTooLowException : public std::exception
 		{
 			public:
-			const char * what(void) const throw();
+				const char * what(void) const throw();
 		};
 		Bureaucrat(void);
 		Bureaucrat(const Bureaucrat& obj);

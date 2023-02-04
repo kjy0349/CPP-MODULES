@@ -2,11 +2,11 @@
 # define PRESIDENTIALPARDONFORM_HPP
 
 # include <iostream>
-# include "Form.hpp"
+# include "AForm.hpp"
 
 class Bureaucrat;
 
-class PresidentialPardonForm : public Form
+class PresidentialPardonForm : public AForm
 {
 	private:
 		PresidentialPardonForm(void);
@@ -17,7 +17,7 @@ class PresidentialPardonForm : public Form
 		~PresidentialPardonForm(void);
 		PresidentialPardonForm(std::string target);
 		void execute(const Bureaucrat& b) const;
-		Form* clone(std::string name) const;
+		AForm* clone(std::string name) const;
 };
 
 #endif

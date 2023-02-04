@@ -9,16 +9,21 @@ int main()
 	try
 	{
 		Bureaucrat a("a", 1);
+		Bureaucrat c("c", 150);
 		Intern b;
 
-		Form* rrf;
-		rrf = b.makeForm("robotomy request", "Bender");
+		AForm* rrf;
+		rrf = b.makeForm("shrubbery creation", "Bender");
 
 		a.signForm(*rrf);
 
 		std::cout << *rrf << std::endl;
 		std::cout << std::endl;
-		a.executeForm(*rrf);		
+		std::cout << std::endl;
+		a.executeForm(*rrf);
+		c.executeForm(*rrf);
+
+		rrf = b.makeForm("asd", "Check");
 	}
 	catch(const std::exception& e)
 	{

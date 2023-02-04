@@ -9,7 +9,7 @@
 
 class Intern {
 	private:
-		Form *f[3];
+		AForm *f[3];
 	public:
 		Intern(void);
 		Intern(const Intern& obj);
@@ -21,7 +21,7 @@ class Intern {
 			public:
 				const char * what(void) const throw();
 		};
-		Form* makeForm(std::string type, std::string name);
+		AForm* makeForm(std::string type, std::string name);
 };
 
 #endif

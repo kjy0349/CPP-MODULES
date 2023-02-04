@@ -3,11 +3,11 @@
 
 # include <iostream>
 # include <cstdlib>
-# include "Form.hpp"
+# include "AForm.hpp"
 
 class Bureaucrat;
 
-class RobotomyRequestForm : public Form
+class RobotomyRequestForm : public AForm
 {
  private:
 	RobotomyRequestForm(void);
