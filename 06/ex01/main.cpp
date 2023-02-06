@@ -1,5 +1,5 @@
 #include <iostream>
-#include <sys/_types/_uintptr_t.h>
+#include <stdint.h>
 
 struct Data
 {
