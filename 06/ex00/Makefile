@@ -1,6 +1,6 @@
-SRC = Bureaucrat.cpp AForm.cpp Intern.cpp PresidentialPardonForm.cpp RobotomyRequestForm.cpp ShrubberyCreationForm.cpp main.cpp
+SRC = Convert.cpp main.c
 CC = c++
-NAME = bure
+NAME = convert
 
 CPPFLAGS = -Wall -Wextra -Werror
 OBJS = $(SRC:.cpp=.o)

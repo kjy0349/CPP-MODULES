@@ -17,7 +17,8 @@ class Convert {
 		Convert& operator=(const Convert& obj);
 		~Convert(void);
         Convert(std::string str);
-        void setValue(std::string s);
+        void setValue(std::string str);
+        std::string getInput(void) const;
         char getChar(void) const;
         int getInt(void) const;
         float getFloat(void) const;
