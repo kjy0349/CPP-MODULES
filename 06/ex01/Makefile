@@ -1,6 +1,6 @@
-SRC = Convert.cpp main.cpp
+SRC = main.cpp
 CC = c++
-NAME = convert
+NAME = serial
 
 CPPFLAGS = -Wall -Wextra -Werror
 OBJS = $(SRC:.cpp=.o)

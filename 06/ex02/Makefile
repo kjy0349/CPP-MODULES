@@ -1,6 +1,6 @@
-SRC = Convert.cpp main.cpp
+SRC = main.cpp Base.cpp
 CC = c++
-NAME = convert
+NAME = base
 
 CPPFLAGS = -Wall -Wextra -Werror
 OBJS = $(SRC:.cpp=.o)

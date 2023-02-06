@@ -2,6 +2,9 @@
 # define CONVERT_HPP
 
 # include <iostream>
+# include <sstream>
+# include <cmath>
+# include <iomanip>
 
 class Convert {
     private:
