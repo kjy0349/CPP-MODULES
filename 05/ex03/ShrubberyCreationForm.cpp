@@ -35,7 +35,7 @@ void ShrubberyCreationForm::execute(const Bureaucrat& b) const
 		return ; 
 	}
 	
-	std::string contents = 	                                                 
+	std::string contents = 	
 "                           %                         %            \n\
  @@@     %    @@     @@@@                                  *       \n\
     @@ %     @  %   @   %          %               ;      ***      \n\

@@ -7,7 +7,7 @@ int main()
 {
 	Bureaucrat a("a", 150);
 	Bureaucrat b("b", 1);
-	ShrubberyCreationForm c("c");
+	ShrubberyCreationForm c("cde");
 	RobotomyRequestForm d("d");
 	PresidentialPardonForm e("e");
 

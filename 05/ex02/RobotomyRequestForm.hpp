@@ -9,15 +9,15 @@ class Bureaucrat;
 
 class RobotomyRequestForm : public AForm
 {
- private:
-	RobotomyRequestForm(void);
-	
- public:
-	RobotomyRequestForm(const RobotomyRequestForm& obj);
-	RobotomyRequestForm& operator=(const RobotomyRequestForm& obj);
-	~RobotomyRequestForm(void);
-	RobotomyRequestForm(std::string target);
-	void execute(const Bureaucrat& b) const;
+	private:
+		RobotomyRequestForm(void);
+		
+	public:
+		RobotomyRequestForm(const RobotomyRequestForm& obj);
+		RobotomyRequestForm& operator=(const RobotomyRequestForm& obj);
+		~RobotomyRequestForm(void);
+		RobotomyRequestForm(std::string target);
+		void execute(const Bureaucrat& b) const;
 };
 
 #endif

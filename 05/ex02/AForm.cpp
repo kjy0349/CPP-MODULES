@@ -23,11 +23,11 @@ AForm::AForm(std::string name, int signGrade, int execGrade) : name_(name), sign
 {
 	if (signGrade > 150 || execGrade > 150)
 	{
-		throw GradeTooHighException();
+		throw GradeTooLowException();
 	}
 	else if (signGrade < 1 || execGrade < 1)
 	{
-		throw GradeTooLowException();
+		throw GradeTooHighException();
 	}
 }
 

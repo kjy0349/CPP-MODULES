@@ -34,6 +34,7 @@ AForm* Intern::makeForm(std::string type, std::string name)
 	{
 		if (types[i] == type) 
 		{
+			std::cout << "Intern creates " << types[i] << std::endl;
 			return (f[i]->clone(name));
 		}
 	}
