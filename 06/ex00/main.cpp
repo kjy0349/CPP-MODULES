@@ -3,6 +3,7 @@
 int main(int ac, char **av)
 {
 	Convert c;
+	Convert d;
 
 	if (ac != 2)
 	{

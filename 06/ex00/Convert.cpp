@@ -246,11 +246,18 @@ std::ostream& operator<<(std::ostream &out, const Convert &b)
 	{
 		if (static_cast<float>(b.getInt()) == b.getFloat())
 		{
-			out << "float: " << std::setprecision(6) << b.printFloat() << ".0f" << std::endl;
+			if (ss.str().length() > 6)
+			{
+				out << "float: " << b.printFloat() << "f" << std::endl;
+			}
+			else
+			{
+				out << "float: " << b.printFloat() << ".0f" << std::endl;
+			}
 		}
 		else
 		{
-			out << "float: " << std::setprecision(6) << b.printFloat() << "f" <<std::endl;
+			out << "float: " << b.printFloat() << "f" <<std::endl;
 		}
 	}
 	catch(const std::exception& e)
@@ -262,7 +269,15 @@ std::ostream& operator<<(std::ostream &out, const Convert &b)
 	{
 		if (static_cast<double>(b.getInt()) == b.getDouble())
 		{
-			out << "double: " << std::setprecision(16) << b.printDouble() << ".0" << std::endl;
+			if (ss.str().length() > 15)
+			{
+				out << "double: " << b.printDouble() << std::endl;
+			}
+			else
+			{
+				out << "double: " << b.printDouble() << ".0" << std::endl;
+			}
+
 		}
 		else
 		{

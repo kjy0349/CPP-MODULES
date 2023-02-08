@@ -1,10 +1,9 @@
 SRC = main.cpp
 CC = c++
-NAME = what
+NAME = array
 
 CPPFLAGS = -Wall -Wextra -Werror
 OBJS = $(SRC:.cpp=.o)
-
 
 all: $(NAME)
 
