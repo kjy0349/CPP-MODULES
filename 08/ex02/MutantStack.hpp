@@ -26,8 +26,8 @@ class MutantStack : public std::stack<T>
         const_iterator cend(void) {return this->c.cend();}
 
         typedef typename MutantStack<T>::stack::container_type::const_reverse_iterator const_reverse_iterator;
-        const_iterator crbegin(void) {return this->c.crbegin();}
-        const_iterator crend(void) {return this->c.crend();}
+        const_reverse_iterator crbegin(void) {return this->c.crbegin();}
+        const_reverse_iterator crend(void) {return this->c.crend();}
 };
 
 #endif

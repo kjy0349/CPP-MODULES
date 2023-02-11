@@ -1,88 +1,91 @@
 #include "Span.hpp"
 
-Span::Span()
+Span::Span(const Span& obj)
 {
-	value_ = 0;
-};
-
-Span::Span(unsigned int n)
-{
-	value_ = n;
+	nums_ = obj.getVector();
 }
 
-Span::Span(Span const &other)
+Span& Span::operator=(const Span& obj)
 {
-	value_ = other.size();
-	nums_ = other.getValues();
+	if(this == &obj) return *this;
+	nums_ = obj.getVector();
+	return (*this);
 }
 
-Span &Span::operator=(Span const &other)
+Span::~Span(void)
 {
-	if (this != &other)
+	nums_.clear();
+	std::vector<int>().swap(nums_);
+}
+
+Span::Span(std::size_t i)
+{
+	nums_.reserve(i);
+}
+
+void Span::addNumber(std::size_t value)
+{
+	if (nums_.capacity() <= nums_.size()) 
 	{
-		value_ = other.size();
-		nums_ = other.getValues();
+		throw std::length_error("size over");
 	}
-	return *this;
+	nums_.push_back(value);
 }
 
-Span::~Span()
+void Span::addRange(std::vector<int>::iterator const &begin, std::vector<int>::iterator const &end)
 {
-}
-
-unsigned int Span::size() const
-{
-	return value_;
-}
-
-std::vector<int> const &Span::getValues() const
-{
-	return nums_;
-}
-
-void Span::addNumber(int n)
-{
-	if (nums_.size() >= value_)
-		throw Span::FullException();
-	nums_.push_back(n);
-}
-
-void Span::addNumber(std::vector<int>::iterator const &begin, std::vector<int>::iterator const &end)
-{
-	int size = std::distance(begin, end);
-	if (size > static_cast<int>(value_))
-		throw Span::FullException();
+	if (nums_.capacity() < nums_.size() + std::distance(begin, end)) 
+	{
+		throw std::length_error("size over");
+	}
 	nums_.insert(nums_.end(), begin, end);
 }
 
-long Span::shortestSpan() const
+std::size_t Span::shortestSpan() const
 {
-	if (nums_.size() < 2)
-		throw Span::CantSearchException();
-	std::vector<int> copy = nums_;
-
-	std::sort(copy.begin(), copy.end());
-	std::vector<int>::iterator prev_it = copy.begin();
-	std::vector<int>::iterator next_it = ++copy.begin();
-	long minSpan = *next_it - *prev_it;
-
-	while (next_it != copy.end())
+	if (nums_.size() <= 2)
 	{
-		if ((long)*next_it - *prev_it < minSpan)
-			minSpan = (long)*next_it - *prev_it;
-		prev_it = next_it;
-		next_it++;
+		throw std::logic_error("vector size is not over 2");
 	}
-	return minSpan;
+	long ret = LONG_MAX;
+	int prev;
+	std::vector<int> tmp = nums_;
+
+	std::sort(tmp.begin(), tmp.end());
+	for (std::vector<int>::iterator iter = tmp.begin(); iter != tmp.end(); iter++) 
+	{
+		if (iter == tmp.begin()) 
+		{
+			prev = *iter;
+		}
+		else 
+		{
+			if (ret > *iter - prev) 
+			{
+				ret = *iter - prev;
+			}
+			prev = *iter;
+		}
+	}
+	return static_cast<std::size_t>(ret);
 }
 
-long Span::longestSpan() const
+std::size_t Span::longestSpan() const
 {
-	if (nums_.size() < 2)
-		throw Span::CantSearchException();
-	std::vector<int> copy = nums_;
+	if (nums_.size() <= 2)
+	{
+		throw std::logic_error("vector size is not over 2");
+	}
+	return (*std::max_element(nums_.begin(), nums_.end()) - *std::min_element(nums_.begin(), nums_.end()) );
+}
 
-	std::sort(copy.begin(), copy.end());
 
-	return ((long)copy.back() - copy.front());
+std::size_t Span::getSize() const
+{
+	return (nums_.size());
+}
+
+std::vector<int> Span::getVector() const
+{
+	return (this->nums_);
 }

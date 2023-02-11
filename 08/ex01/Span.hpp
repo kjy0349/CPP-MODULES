@@ -3,52 +3,22 @@
 
 # include <iostream>
 # include <vector>
-# include <algorithm>
 
 class Span {
     private:
-        unsigned int value_;
         std::vector<int> nums_;
         Span(void);
     public:
-        Span(unsigned int value);
-        Span(Span const &obj);
-        Span& operator=(Span const &obj);
-        int &operator[](int i);
+        Span(const Span& obj);
+        Span& operator=(const Span& obj);
         ~Span(void);
-
-        unsigned int size() const;
-	    std::vector<int> const &getValues() const;
-
-        void addNumber(int value);
-        void addNumber(std::vector<int>::iterator const &, std::vector<int>::iterator const &);
-        long shortestSpan() const;
-        long longestSpan() const;
-
-        class OutOfRangeException : public std::exception
-        {
-        public:
-            const char *what() const throw()
-            {
-                return ("Out of range");
-            }
-        };
-        class FullException : public std::exception
-        {
-        public:
-            const char *what() const throw()
-            {
-                return ("Buffer is already full");
-            }
-        };
-        class CantSearchException : public std::exception
-        {
-        public:
-            const char *what() const throw()
-            {
-                return ("Can't search");
-            }
-        };
+        Span(std::size_t i);
+        void addNumber(std::size_t value);
+        void addRange(std::vector<int>::iterator const &begin, std::vector<int>::iterator const &end);
+        std::size_t shortestSpan() const;
+        std::size_t longestSpan() const;
+        std::size_t getSize() const;
+        std::vector<int> getVector() const;
 };
 
 #endif
