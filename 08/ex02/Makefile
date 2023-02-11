@@ -1,6 +1,6 @@
-SRC = main.cpp Span.cpp
+SRC = main.cpp
 CXX = c++
-NAME = ex01
+NAME = ex02
 
 CXXFLAGS = -Wall -Wextra -Werror
 OBJS = $(SRC:.cpp=.o)

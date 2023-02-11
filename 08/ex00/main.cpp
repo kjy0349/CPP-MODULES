@@ -15,6 +15,7 @@ int main()
         list.push_back(i);
         queue.push_back(i);
     }
+
     std::cout << *(easyfind(vector, 5)) << std::endl;
     std::cout << *(easyfind(list, 5)) << std::endl;
     std::cout << *(easyfind(queue, 5)) << std::endl;

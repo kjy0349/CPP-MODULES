@@ -1,27 +1,88 @@
 #include "Span.hpp"
-//     size_t value_;
-//     std::vector<int> nums_;
-//     Span(void);
-// public:
-//     Span(Span &obj);
-//     Span(int value);
-//     Span& operator=(Span &obj);
-//     ~Span(void);
-//     void addNumber(int value);
-//     size_t shortestSpan(void);
-//     size_t longestSpan(void);
-//     size_t getValue(void);
-//     std::vector<int> getNums(void);
 
-Span::Span(void) : value_(0), nums_(NULL)
+Span::Span()
+{
+	value_ = 0;
+};
+
+Span::Span(unsigned int n)
+{
+	value_ = n;
+}
+
+Span::Span(Span const &other)
+{
+	value_ = other.size();
+	nums_ = other.getValues();
+}
+
+Span &Span::operator=(Span const &other)
+{
+	if (this != &other)
+	{
+		value_ = other.size();
+		nums_ = other.getValues();
+	}
+	return *this;
+}
+
+Span::~Span()
 {
 }
-Span::Span(Span &obj)
+
+unsigned int Span::size() const
 {
-    this->value_ = obj.getValue();
-    this->nums_ = obj.getNums();
+	return value_;
 }
-Span::Span(unsigned int value)
+
+std::vector<int> const &Span::getValues() const
 {
-    nums_ = std::vector<int>(value);
+	return nums_;
+}
+
+void Span::addNumber(int n)
+{
+	if (nums_.size() >= value_)
+		throw Span::FullException();
+	nums_.push_back(n);
+}
+
+void Span::addNumber(std::vector<int>::iterator const &begin, std::vector<int>::iterator const &end)
+{
+	int size = std::distance(begin, end);
+	if (size > static_cast<int>(value_))
+		throw Span::FullException();
+	nums_.insert(nums_.end(), begin, end);
+}
+
+long Span::shortestSpan() const
+{
+	if (nums_.size() < 2)
+		throw Span::CantSearchException();
+	std::vector<int> copy = nums_;
+
+	std::sort(copy.begin(), copy.end());
+	std::vector<int>::iterator prev_it = copy.begin();
+	std::vector<int>::iterator next_it = ++copy.begin();
+	long minSpan = *next_it - *prev_it;
+
+	while (next_it != copy.end())
+	{
+		if ((long)*next_it - *prev_it < minSpan)
+			minSpan = (long)*next_it - *prev_it;
+		prev_it = next_it;
+		next_it++;
+	}
+	return minSpan;
+}
+
+long Span::longestSpan() const
+{
+	if (nums_.size() < 2)
+		throw Span::CantSearchException();
+	std::vector<int> copy = nums_;
+
+	std::sort(copy.begin(), copy.end());
+
+	return ((long)copy.back() - copy.front());
 }

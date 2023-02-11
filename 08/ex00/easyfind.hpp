@@ -1,6 +1,5 @@
 #ifndef EASYFIND_HPP
 # define EASYFIND_HPP
-# pragma once
 
 # include <iostream>
 # include <vector>
