@@ -52,3 +52,35 @@ BitcoinExchange::BitcoinExchange(std::string date, int value)
 	this->value_ = value;
 	this->type_ = typeid(value).name();
 }
+BitcoinExchange::~BitcoinExchange() {
+
+}
+
+void BitcoinExchange::save_data(void) {
+	std::ifstream fs("data.csv");
+	try {
+		if (fs.fail())
+			throw BitcoinExchange::FileNotFound();
+		std::string line1, line2;
+		std::getline(fs, line1, ',');
+		std::getline(fs, line2);
+		double value;
+		if (!((line1 == "date") && (line2 == "exchange_rate")))
+			throw BitcoinExchange::InvaildFile();
+		while (!fs.eof()) {
+			std::getline(fs, line1, ',');
+			std::getline(fs, line2);
+			std::stringstream ss(line2);
+			ss >> value;
+			if (!line1.empty() && !line2.empty()) {
+				db.insert(std::pair<std::string, double>(line1, value));
+			}
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+}
+
+void BitcoinExchange::

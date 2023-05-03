@@ -2,9 +2,10 @@
 # define BITCOINEXCHANGE_HPP
 
 # include <iostream>
+# include <typeinfo>
 # include <fstream>
 # include <map>
-# include <typeinfo>
+# include <sstream>
 
 class BitcoinExchange
 {
@@ -12,6 +13,7 @@ class BitcoinExchange
 		std::string	date_;
 		std::string type_;
 		float value_;
+		std::map<std::string, double, std::greater<std::string> > db;
 	public:
 		BitcoinExchange(void);
 		BitcoinExchange(const BitcoinExchange& obj);
@@ -19,6 +21,7 @@ class BitcoinExchange
 		BitcoinExchange& operator=(const BitcoinExchange& obj);
 		BitcoinExchange(std::string date, float value);
 		BitcoinExchange(std::string date, int value);
+		void get_data(void);
 		class FileNotFound : public std::exception
 		{
 			public:

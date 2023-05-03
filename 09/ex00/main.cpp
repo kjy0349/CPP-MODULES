@@ -5,19 +5,14 @@
 
 int	main(int argc, char *argv[])
 {
-	std::ifstream fs("data.csv");
+	BitcoinExchange b = BitcoinExchange();
+	std::ifstream fs(argv[1]);
 	try {
 		if (fs.fail())
-			throw BitcoinExchange::FileNotFound();
-		std::map<std::string, float> map;
-		std::string line1, line2;
-		std::getline(fs, line1, ',');
-		std::getline(fs, line2);
-		if (!((line1 == "date") && (line2 == "exchange_rate")))
 			throw BitcoinExchange::InvaildFile();
+		b.save_data();
 	}
-	catch (const std::exception& e)
-	{
+	catch (const std::exception& e) {
 		std::cerr << e.what() << '\n';
 	}
 }
