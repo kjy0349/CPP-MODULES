@@ -6,11 +6,10 @@
 int	main(int argc, char *argv[])
 {
 	BitcoinExchange b = BitcoinExchange();
-	std::ifstream fs(argv[1]);
+	(void)argc;
 	try {
-		if (fs.fail())
-			throw BitcoinExchange::InvaildFile();
 		b.save_data();
+		b.calculate(argv[1]);
 	}
 	catch (const std::exception& e) {
 		std::cerr << e.what() << '\n';

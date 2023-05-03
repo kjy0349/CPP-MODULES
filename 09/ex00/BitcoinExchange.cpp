@@ -15,6 +15,12 @@ const char * BitcoinExchange::NotPositiveValue::what(void) const throw()
 	return "Error: not a positive number.";
 }
 
+const char * BitcoinExchange::BadInput::what() const throw()
+{
+	return "Error: bad input => " ;
+}
+
+
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& obj)
 {
 	if(this == &obj) return *this;
@@ -39,7 +45,7 @@ BitcoinExchange::BitcoinExchange(const BitcoinExchange& obj)
 	this->type_ = obj.type_;
 }
 
-BitcoinExchange::BitcoinExchange(std::string date, float value)
+BitcoinExchange::BitcoinExchange(std::string date, double value)
 {
 	this->date_ = date;
 	this->value_ = value;
@@ -83,4 +89,68 @@ void BitcoinExchange::save_data(void) {
 	}
 }
 
-void BitcoinExchange::
+void BitcoinExchange::calculate(std::string input) {
+	std::ifstream fs(input);
+	try {
+		if (fs.fail())
+			throw BitcoinExchange::FileNotFound();
+		std::string line, date, s_value;
+		int target;
+		double value;
+		double rate;
+		bool checked;
+		std::getline(fs, line);
+		target = line.find('|', 0);
+		date = line.substr(0, target);
+		s_value = line.substr(target + 1);
+		if (!((date == "date ") && (s_value == " value")))
+			throw BitcoinExchange::InvaildFile();
+		while (!fs.eof()) {
+			checked = false;
+			std::getline(fs, line);
+			target = line.find('|', 0);
+			date = line.substr(0, target);
+			s_value = line.substr(target + 1);
+			date.erase(date.find_last_not_of(" ") + 1);
+			s_value.erase(0, s_value.find_first_not_of(" "));
+			std::stringstream ss(s_value);
+			ss >> value;
+			if (!date.empty() && !s_value.empty()) {
+				if (value < 0) {
+					std::cerr << "Error: not a positive number." << '\n';
+					continue;
+				}
+				else if (value > 2147483647) {
+					std::cerr << "Error: too large a number." << '\n';
+					continue;
+				}
+				std::map<std::string, double>::iterator iter = db.find(date);
+				if (iter != db.end())
+					rate = value * iter->second;
+				else {
+					for (std::map<std::string, double>::iterator it = db.begin(); it != db.end(); it++) {
+						if (date.compare(it->first) >= 0) {
+							rate = value * it->second;
+							checked = true;
+							break;
+						}
+					}
+					if (!checked) {
+						std::cerr << "Error: bad input => " + date + "\0" << '\n';
+						continue;
+					}
+					if (value > 2147483647) {
+						std::cerr << "Error: too large a number." << '\n';
+						continue;
+					}
+				}
+				std::cout.precision(2);
+				std::cout << date << " => " << value << " = " << rate << '\n';
+			}
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+}

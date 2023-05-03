@@ -3,14 +3,14 @@ SRC = ./main.cpp ./BitcoinExchange.cpp
 CC = c++
 NAME = btc
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
+CPPFLAGS = -Wall -Wextra -Werror -g -std=c++98 -pedantic
 OBJS = $(SRC:.cpp=.o)
 
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAG) $(OBJS) -o $(NAME)
+	$(CC) $(CPPFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
