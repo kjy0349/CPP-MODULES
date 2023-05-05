@@ -1,7 +1,6 @@
 #ifndef BITCOINEXCHANGE_HPP
 # define BITCOINEXCHANGE_HPP
 
-# include <typeinfo>
 # include <fstream>
 # include <map>
 # include <sstream>

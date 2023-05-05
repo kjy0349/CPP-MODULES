@@ -62,6 +62,36 @@ BitcoinExchange::~BitcoinExchange() {
 
 }
 
+bool validate_date(std::string date) {
+	int idx;
+	int n_idx;
+	long y, m, d;
+	std::string year, month, day;
+	std::stringstream ss;
+
+	idx = date.find('-', 0);
+	year = date.substr(0, idx);
+	n_idx = date.find('-', idx + 1);
+	month = date.substr(idx + 1, n_idx - idx - 1);
+	day = date.substr(n_idx + 1);
+	ss.str(year);
+	ss >> y;
+	ss.clear();
+	ss.str(month);
+	ss >> m;
+	ss.clear();
+	ss.str(day);
+	ss >> d;
+	if (y > 9999 || y < 0) return false;
+	if (m > 12 || m < 1) return false;
+	if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12) {
+		if (d > 31 || d < 1) return false;
+	} else {
+		if (d > 30 || d < 1) return false;
+	}
+	return true;
+}
+
 void BitcoinExchange::save_data(void) {
 	std::ifstream fs("data.csv");
 	try {
@@ -122,6 +152,9 @@ void BitcoinExchange::calculate(std::string input) {
 				}
 				else if (value > 2147483647) {
 					std::cerr << "Error: too large a number." << '\n';
+					continue;
+				} else if (!validate_date(date)) {
+					std::cerr << "Error: bad input => " + date + "\0" << '\n';
 					continue;
 				}
 				std::map<std::string, double>::iterator iter = db.find(date);
