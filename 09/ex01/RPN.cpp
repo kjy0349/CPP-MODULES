@@ -26,11 +26,21 @@ int Rpn::calculate(std::string oper) {
     int op1;
     int op2;
     
-    ss.str(stk.top());
+    if (!stk.empty())
+        ss.str(stk.top());
+    else {
+        flag = false;
+        return -1;
+    }
     stk.pop();
     ss >> op2;
     ss.clear();
-    ss.str(stk.top());
+    if (!stk.empty())
+        ss.str(stk.top());
+    else {
+        flag = false;
+        return -1;
+    }
     stk.pop();
     ss >> op1;
     if (oper.compare("+") == 0) {
