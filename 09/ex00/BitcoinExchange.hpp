@@ -32,16 +32,6 @@ class BitcoinExchange
 			public:
 				const char * what(void) const throw();
 		};
-		class NotPositiveValue : public std::exception
-		{
-			public:
-				const char * what(void) const throw();
-		};
-		class BadInput : public std::exception
-		{
-			public:
-				const char * what(void) const throw();
-		};
 };
 
 #endif

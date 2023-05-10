@@ -1,14 +1,14 @@
 # ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-# include <iostream>
 # include <vector>
-# include <list>
+# include <deque>
 # include <sstream>
+# include <iostream>
 
 class PmergeMe {
     private:
-        std::list<int> lst;
+        std::deque<int> deq;
         std::vector<int> vtr;
         int K;
     public:
@@ -17,9 +17,10 @@ class PmergeMe {
         PmergeMe(int K);
         ~PmergeMe();
         PmergeMe &operator=(const PmergeMe& obj);
-        // void sort_list(int l, int r);
         void sort_vector(int l, int r);
+        void sort_deque(int l, int r) ;
         void sort(std::vector<int> &input_vec);
+        void sort(std::deque<int> &input_deq);
 };
 
 #endif

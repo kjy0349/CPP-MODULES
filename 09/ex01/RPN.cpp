@@ -21,7 +21,7 @@ Rpn &Rpn::operator=(const Rpn& obj) {
 	return (*this);    
 }
 
-int Rpn::calculate(std::string oper) {
+long Rpn::calculate(std::string oper) {
     std::stringstream ss;
     int op1;
     int op2;
@@ -57,11 +57,17 @@ int Rpn::calculate(std::string oper) {
 void Rpn::solution(std::string input) {
     std::stringstream ss(input);
     std::string elem;
+    long sub_sum;
     while (ss >> elem) {
         if (elem.compare("0") > 0 && elem.compare("9") <= 0)
             stk.push(elem);
         else if (elem.compare("+") == 0 || elem.compare("-") == 0 || elem.compare("*") == 0 || elem.compare("/") == 0) {
-            stk.push(std::to_string(calculate(elem)));
+            sub_sum = calculate(elem);
+            if (sub_sum > 2147483647 || sub_sum < -2147483648) {
+                this->flag = false;
+                return ;
+            }
+            stk.push(std::to_string(sub_sum));
         }
         else {
             this->flag = false;

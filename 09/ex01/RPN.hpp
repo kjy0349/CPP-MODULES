@@ -16,7 +16,7 @@ class Rpn
 		~Rpn();
 		Rpn& operator=(const Rpn& obj);
 		void solution(std::string input);
-		int calculate(std::string opera);
+		long calculate(std::string opera);
 		void print_ans(void);
 };
 

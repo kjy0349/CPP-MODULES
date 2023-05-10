@@ -10,17 +10,6 @@ const char * BitcoinExchange::InvaildFile::what(void) const throw()
 	return "Error: Invaild file..";
 }
 
-const char * BitcoinExchange::NotPositiveValue::what(void) const throw()
-{
-	return "Error: not a positive number.";
-}
-
-const char * BitcoinExchange::BadInput::what() const throw()
-{
-	return "Error: bad input => " ;
-}
-
-
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& obj)
 {
 	if(this == &obj) return *this;
@@ -94,96 +83,97 @@ bool validate_date(std::string date) {
 
 void BitcoinExchange::save_data(void) {
 	std::ifstream fs("data.csv");
-	try {
-		if (fs.fail())
-			throw BitcoinExchange::FileNotFound();
-		std::string line1, line2;
+	if (fs.fail()) {
+		fs.close();
+		throw BitcoinExchange::FileNotFound();
+	}
+	std::string line1, line2;
+	std::getline(fs, line1, ',');
+	std::getline(fs, line2);
+	double value;
+	if (!((line1 == "date") && (line2 == "exchange_rate"))) {
+		fs.close();
+		throw BitcoinExchange::InvaildFile();
+	}
+	while (!fs.eof()) {
 		std::getline(fs, line1, ',');
 		std::getline(fs, line2);
-		double value;
-		if (!((line1 == "date") && (line2 == "exchange_rate")))
-			throw BitcoinExchange::InvaildFile();
-		while (!fs.eof()) {
-			std::getline(fs, line1, ',');
-			std::getline(fs, line2);
-			std::stringstream ss(line2);
-			ss >> value;
-			if (!line1.empty() && !line2.empty()) {
-				db.insert(std::pair<std::string, double>(line1, value));
-			}
+		std::stringstream ss(line2);
+		ss >> value;
+		if (!line1.empty() && !line2.empty()) {
+			db.insert(std::pair<std::string, double>(line1, value));
 		}
 	}
-	catch (const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	fs.close();
 }
 
 void BitcoinExchange::calculate(std::string input) {
 	std::ifstream fs(input);
-	try {
-		if (fs.fail())
-			throw BitcoinExchange::FileNotFound();
-		std::string line, date, s_value;
-		int target;
-		double value;
-		double rate;
-		bool checked;
+	if (fs.fail()) {
+		fs.close();
+		throw BitcoinExchange::FileNotFound();
+	}
+	std::string line, date, s_value;
+	int target;
+	double value;
+	double rate;
+	bool checked;
+	std::getline(fs, line);
+	target = line.find('|', 0);
+	date = line.substr(0, target);
+	s_value = line.substr(target + 1);
+	if (!((date == "date ") && (s_value == " value"))) {
+		fs.close();
+		throw BitcoinExchange::InvaildFile();
+	}
+	while (!fs.eof()) {
+		checked = false;
 		std::getline(fs, line);
 		target = line.find('|', 0);
 		date = line.substr(0, target);
 		s_value = line.substr(target + 1);
-		if (!((date == "date ") && (s_value == " value")))
-			throw BitcoinExchange::InvaildFile();
-		while (!fs.eof()) {
-			checked = false;
-			std::getline(fs, line);
-			target = line.find('|', 0);
-			date = line.substr(0, target);
-			s_value = line.substr(target + 1);
-			date.erase(date.find_last_not_of(" ") + 1);
-			s_value.erase(0, s_value.find_first_not_of(" "));
-			std::stringstream ss(s_value);
-			ss >> value;
-			if (!date.empty() && !s_value.empty()) {
-				if (value < 0) {
-					std::cerr << "Error: not a positive number." << '\n';
-					continue;
-				}
-				else if (value > 2147483647) {
-					std::cerr << "Error: too large a number." << '\n';
-					continue;
-				} else if (!validate_date(date)) {
-					std::cerr << "Error: bad input => " + date + "\0" << '\n';
-					continue;
-				}
-				std::map<std::string, double>::iterator iter = db.find(date);
-				if (iter != db.end())
-					rate = value * iter->second;
-				else {
-					for (std::map<std::string, double>::iterator it = db.begin(); it != db.end(); it++) {
-						if (date.compare(it->first) >= 0) {
-							rate = value * it->second;
-							checked = true;
-							break;
-						}
-					}
-					if (!checked) {
-						std::cerr << "Error: bad input => " + date + "\0" << '\n';
-						continue;
-					}
-					if (value > 2147483647) {
-						std::cerr << "Error: too large a number." << '\n';
-						continue;
-					}
-				}
-				std::cout.precision(2);
-				std::cout << date << " => " << value << " = " << rate << '\n';
+		date.erase(date.find_last_not_of(" ") + 1);
+		s_value.erase(0, s_value.find_first_not_of(" "));
+		std::stringstream ss(s_value);
+		ss >> value;
+		if (!date.empty() && !s_value.empty()) {
+			if (value < 0) {
+				std::cout << "Error: not a positive number.\n";
+				continue;
 			}
+			else if (value > 2147483647) {
+				std::cout << "Error: too large a number.\n";
+				continue;
+			} else if (!validate_date(date)) {
+				std::cout << "Error: bad input => " + date + "\n";
+				continue;
+			} else if (ss.fail()) {
+				std::cout << "Error: Invaild input.\n";
+				continue;
+			}
+			std::map<std::string, double>::iterator iter = db.find(date);
+			if (iter != db.end())
+				rate = value * iter->second;
+			else {
+				for (std::map<std::string, double>::iterator it = db.begin(); it != db.end(); it++) {
+					if (date.compare(it->first) >= 0) {
+						rate = value * it->second;
+						checked = true;
+						break;
+					}
+				}
+				if (!checked) {
+					std::cout << "Error: bad input => " + date << '\n';
+					continue;
+				}
+				if (value > 2147483647) {
+					std::cout << "Error: too large a number.\n";
+					continue;
+				}
+			}
+			std::cout.precision(2);
+			std::cout << date << " => " << value << " = " << rate << '\n';
 		}
 	}
-	catch (const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	fs.close();
 }
