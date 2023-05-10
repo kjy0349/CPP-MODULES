@@ -3,13 +3,13 @@
 int main(int argc, char *argv[]) {
     std::stringstream ss;
     std::vector<int> input_vec;
-    long elem = 0;
+    int elem = 0;
     for (int i = 1; i < argc; i++) {
         ss.clear();
         ss.str(argv[i]);
         ss >> elem;
-        if (elem > 2147483647 || elem < 0) {
-            std::cout << "Invaild number." << '\n';
+        if (elem < 0 || ss.fail()) {
+            std::cout << "Invaild input." << '\n';
             return -1;
         }
         input_vec.push_back(elem);
