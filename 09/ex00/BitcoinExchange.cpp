@@ -1,10 +1,5 @@
 #include "BitcoinExchange.hpp"
 
-const char * BitcoinExchange::FileNotFound::what(void) const throw()
-{
-	return "Error: File not found..";
-}
-
 const char * BitcoinExchange::InvaildFile::what(void) const throw()
 {
 	return "Error: Invaild file..";
@@ -13,64 +8,53 @@ const char * BitcoinExchange::InvaildFile::what(void) const throw()
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& obj)
 {
 	if(this == &obj) return *this;
-	
-	this->date_ = obj.date_;
-	this->value_ = obj.value_;
-	this->type_ = obj.type_;
+
+	this->db = obj.db;
 	return (*this);
 }
 
 BitcoinExchange::BitcoinExchange(void)
 {
-	this->date_ = "";
-	this->type_ = "";
-	this->value_ = 0.0f;
 }
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange& obj)
 {
-	this->date_ = obj.date_;
-	this->value_ = obj.value_;
-	this->type_ = obj.type_;
+	this->db = obj.db;
 }
 
-BitcoinExchange::BitcoinExchange(std::string date, double value)
+BitcoinExchange::~BitcoinExchange() 
 {
-	this->date_ = date;
-	this->value_ = value;
-	this->type_ = typeid(value).name();
-}
-
-BitcoinExchange::BitcoinExchange(std::string date, int value)
-{
-	this->date_ = date;
-	this->value_ = value;
-	this->type_ = typeid(value).name();
-}
-BitcoinExchange::~BitcoinExchange() {
-
 }
 
 bool validate_date(std::string date) {
-	int idx;
-	int n_idx;
+	size_t idx, n_idx;
 	long y, m, d;
 	std::string year, month, day;
 	std::stringstream ss;
 
 	idx = date.find('-', 0);
+	if (idx == std::string::npos)
+		return false;
 	year = date.substr(0, idx);
 	n_idx = date.find('-', idx + 1);
+	if (idx == std::string::npos)
+		return false;
 	month = date.substr(idx + 1, n_idx - idx - 1);
 	day = date.substr(n_idx + 1);
 	ss.str(year);
 	ss >> y;
+	if (ss.fail())
+		return false;
 	ss.clear();
 	ss.str(month);
 	ss >> m;
+	if (ss.fail())
+		return false;
 	ss.clear();
 	ss.str(day);
 	ss >> d;
+	if (ss.fail())
+		return false;
 	if (y > 9999 || y < 0) return false;
 	if (m > 12 || m < 1) return false;
 	if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12) {
@@ -85,23 +69,24 @@ void BitcoinExchange::save_data(void) {
 	std::ifstream fs("data.csv");
 	if (fs.fail()) {
 		fs.close();
-		throw BitcoinExchange::FileNotFound();
+		throw BitcoinExchange::InvaildFile();
 	}
 	std::string line1, line2;
 	std::getline(fs, line1, ',');
 	std::getline(fs, line2);
-	double value;
+	float value;
 	if (!((line1 == "date") && (line2 == "exchange_rate"))) {
 		fs.close();
 		throw BitcoinExchange::InvaildFile();
 	}
-	while (!fs.eof()) {
-		std::getline(fs, line1, ',');
+	while (std::getline(fs, line1, ',')) {
 		std::getline(fs, line2);
 		std::stringstream ss(line2);
 		ss >> value;
+		if (ss.fail() || value < 0 || value > 2147483647 || !validate_date(line1))
+			throw BitcoinExchange::InvaildFile();
 		if (!line1.empty() && !line2.empty()) {
-			db.insert(std::pair<std::string, double>(line1, value));
+			db.insert(std::pair<std::string, float>(line1, value));
 		}
 	}
 	fs.close();
@@ -111,25 +96,30 @@ void BitcoinExchange::calculate(std::string input) {
 	std::ifstream fs(input);
 	if (fs.fail()) {
 		fs.close();
-		throw BitcoinExchange::FileNotFound();
+		throw BitcoinExchange::InvaildFile();
 	}
 	std::string line, date, s_value;
-	int target;
-	double value;
-	double rate;
+	size_t target;
+	float value;
+	float rate;
 	bool checked;
 	std::getline(fs, line);
 	target = line.find('|', 0);
+	if (target == std::string::npos)
+		throw BitcoinExchange::InvaildFile();
 	date = line.substr(0, target);
 	s_value = line.substr(target + 1);
 	if (!((date == "date ") && (s_value == " value"))) {
 		fs.close();
 		throw BitcoinExchange::InvaildFile();
 	}
-	while (!fs.eof()) {
+	while (std::getline(fs, line)) {
 		checked = false;
-		std::getline(fs, line);
 		target = line.find('|', 0);
+		if (target == std::string::npos) {
+			std::cout << "Error: Invaild input.\n";
+			continue;
+		}
 		date = line.substr(0, target);
 		s_value = line.substr(target + 1);
 		date.erase(date.find_last_not_of(" ") + 1);
@@ -141,7 +131,7 @@ void BitcoinExchange::calculate(std::string input) {
 				std::cout << "Error: not a positive number.\n";
 				continue;
 			}
-			else if (value > 2147483647) {
+			else if (value > 1000) {
 				std::cout << "Error: too large a number.\n";
 				continue;
 			} else if (!validate_date(date)) {
@@ -151,11 +141,11 @@ void BitcoinExchange::calculate(std::string input) {
 				std::cout << "Error: Invaild input.\n";
 				continue;
 			}
-			std::map<std::string, double>::iterator iter = db.find(date);
+			std::map<std::string, float>::iterator iter = db.find(date);
 			if (iter != db.end())
 				rate = value * iter->second;
 			else {
-				for (std::map<std::string, double>::iterator it = db.begin(); it != db.end(); it++) {
+				for (std::map<std::string, float>::iterator it = db.begin(); it != db.end(); it++) {
 					if (date.compare(it->first) >= 0) {
 						rate = value * it->second;
 						checked = true;
@@ -173,7 +163,7 @@ void BitcoinExchange::calculate(std::string input) {
 			}
 			std::cout.precision(2);
 			std::cout << date << " => " << value << " = " << rate << '\n';
-		}
+		} else std::cout << "Error: Invaild Input.\n";
 	}
 	fs.close();
 }

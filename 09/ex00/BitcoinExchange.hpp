@@ -9,10 +9,7 @@
 class BitcoinExchange
 {
 	private:
-		std::string	date_;
-		std::string type_;
-		double value_;
-		std::map<std::string, double, std::greater<std::string> > db;
+		std::map<std::string, float, std::greater<std::string> > db;
 	public:
 		BitcoinExchange(void);
 		BitcoinExchange(const BitcoinExchange& obj);
@@ -22,11 +19,6 @@ class BitcoinExchange
 		BitcoinExchange(std::string date, int value);
 		void save_data(void);
 		void calculate(std::string input);
-		class FileNotFound : public std::exception
-		{
-			public:
-				const char * what(void) const throw();
-		};
 		class InvaildFile : public std::exception
 		{
 			public:
