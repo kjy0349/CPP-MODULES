@@ -61,7 +61,7 @@ void Rpn::solution(std::string input) {
     while (ss >> elem) {
         if (elem.compare("0") > 0 && elem.compare("9") <= 0)
             stk.push(elem);
-        else if (elem.compare("+") == 0 || elem.compare("-") == 0 || elem.compare("*") == 0 || elem.compare("/") == 0) {
+        else if (elem == "+" || elem == "-" || elem == "*" || elem == "/") {
             sub_sum = calculate(elem);
             if (sub_sum > 2147483647 || sub_sum < -2147483648) {
                 this->flag = false;

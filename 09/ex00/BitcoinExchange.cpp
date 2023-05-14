@@ -28,7 +28,7 @@ BitcoinExchange::~BitcoinExchange()
 
 bool validate_date(std::string date) {
 	size_t idx, n_idx;
-	long y, m, d;
+	int y, m, d;
 	std::string year, month, day;
 	std::stringstream ss;
 
