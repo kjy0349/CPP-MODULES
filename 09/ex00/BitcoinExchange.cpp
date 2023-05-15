@@ -162,7 +162,7 @@ void BitcoinExchange::calculate(std::string input) {
 				}
 			}
 			std::cout.precision(2);
-			std::cout << date << " => " << value << " = " << rate << '\n';
+			std::cout << std::fixed << date << " => " << value << " = " << rate << std::endl;
 		} else std::cout << "Error: Invaild Input.\n";
 	}
 	fs.close();

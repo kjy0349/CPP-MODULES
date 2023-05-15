@@ -42,9 +42,8 @@ void insert_vtr(std::vector<int> &vtr, int l, int r) {
 void merge_vtr(std::vector<int> &vtr, int l, int m, int r) {
     int left_size = m - l + 1;
     int right_size = r - m;
-    std::vector<int> left_vec, right_vec;
-    for (int i = l; i < m + 1; i++) left_vec.push_back(vtr[i]);
-    for (int i = m + 1; i < r + 1; i++) right_vec.push_back(vtr[i]);
+    std::vector<int> left_vec(vtr.begin() + l, vtr.begin() + m + 1);
+    std::vector<int> right_vec(vtr.begin() + m + 1, vtr.begin() + r + 1);
     int l_idx = 0, r_idx = 0;
     for (int i = l; i < r + 1; i++) {
         if (r_idx == right_size) {
@@ -64,7 +63,7 @@ void merge_vtr(std::vector<int> &vtr, int l, int m, int r) {
 }
 
 void PmergeMe::sort_vector(int l, int r) {
-    if (r - l > this->K) {
+    if (r - l >= this->K) {
         int m = (r - l) / 2 + l;
         sort_vector(l, m);
         sort_vector(m + 1, r);
@@ -93,9 +92,8 @@ void insert_deq(std::deque<int> &deq, int l, int r) {
 void merge_deq(std::deque<int> &deq, int l, int m, int r) {
     int left_size = m - l + 1;
     int right_size = r - m;
-    std::deque<int> left_deq, right_deq;
-    for (int i = l; i < m + 1; i++) left_deq.push_back(deq[i]);
-    for (int i = m + 1; i < r + 1; i++) right_deq.push_back(deq[i]);
+    std::deque<int> left_deq(deq.begin() + l, deq.begin() + m + 1);
+    std::deque<int> right_deq(deq.begin() + m + 1, deq.begin() + r + 1);
     int l_idx = 0, r_idx = 0;
     for (int i = l; i < r + 1; i++) {
         if (r_idx == right_size) {
@@ -115,7 +113,7 @@ void merge_deq(std::deque<int> &deq, int l, int m, int r) {
 }
 
 void PmergeMe::sort_deque(int l, int r) {
-    if (r - l > this->K) {
+    if (r - l >= this->K) {
         int m = (r - l) / 2 + l;
         sort_deque(l, m);
         sort_deque(m + 1, r);

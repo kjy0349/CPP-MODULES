@@ -6,7 +6,7 @@ Rpn::Rpn(void) {
 
 Rpn::Rpn(const Rpn& obj) {
     this->stk = obj.stk;
-    this->flag = true;
+    this->flag = obj.flag;
 }
 
 Rpn::~Rpn() {
@@ -34,6 +34,10 @@ long Rpn::calculate(std::string oper) {
     }
     stk.pop();
     ss >> op2;
+    if (ss.fail()) {
+        flag = false;
+        return -1;
+    }
     ss.clear();
     if (!stk.empty())
         ss.str(stk.top());
@@ -43,6 +47,10 @@ long Rpn::calculate(std::string oper) {
     }
     stk.pop();
     ss >> op1;
+    if (ss.fail()) {
+        flag = false;
+        return -1;
+    }
     if (oper.compare("+") == 0) {
         return op1 + op2;
     } else if (oper.compare("-") == 0) {
@@ -59,7 +67,7 @@ void Rpn::solution(std::string input) {
     std::string elem;
     long sub_sum;
     while (ss >> elem) {
-        if (elem.compare("0") > 0 && elem.compare("9") <= 0)
+        if (elem.length() == 1 && elem.compare("0") > 0 && elem.compare("9") <= 0)
             stk.push(elem);
         else if (elem == "+" || elem == "-" || elem == "*" || elem == "/") {
             sub_sum = calculate(elem);
