@@ -143,11 +143,11 @@ void BitcoinExchange::calculate(std::string input) {
 			}
 			std::map<std::string, float>::iterator iter = db.find(date);
 			if (iter != db.end())
-				rate = value * iter->second;
+				rate = (float)value * iter->second;
 			else {
 				for (std::map<std::string, float>::iterator it = db.begin(); it != db.end(); it++) {
 					if (date.compare(it->first) >= 0) {
-						rate = value * it->second;
+						rate = (float)value * it->second;
 						checked = true;
 						break;
 					}
@@ -161,8 +161,7 @@ void BitcoinExchange::calculate(std::string input) {
 					continue;
 				}
 			}
-			std::cout.precision(2);
-			std::cout << std::fixed << date << " => " << value << " = " << rate << std::endl;
+			std::cout << date << " => " << value << " = " << rate << std::endl;
 		} else std::cout << "Error: Invaild Input.\n";
 	}
 	fs.close();

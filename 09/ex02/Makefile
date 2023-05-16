@@ -3,7 +3,7 @@ SRC = ./main.cpp ./PmergeMe.cpp
 CC = c++
 NAME = PmergeMe
 
-CPPFLAGS = -Wall -Wextra -Werror -g -std=c++98 -pedantic
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 OBJS = $(SRC:.cpp=.o)
 
 

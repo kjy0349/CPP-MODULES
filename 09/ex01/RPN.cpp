@@ -67,7 +67,7 @@ void Rpn::solution(std::string input) {
     std::string elem;
     long sub_sum;
     while (ss >> elem) {
-        if (elem.length() == 1 && elem.compare("0") > 0 && elem.compare("9") <= 0)
+        if (elem.length() == 1 && elem.compare("0") >= 0 && elem.compare("9") <= 0)
             stk.push(elem);
         else if (elem == "+" || elem == "-" || elem == "*" || elem == "/") {
             sub_sum = calculate(elem);

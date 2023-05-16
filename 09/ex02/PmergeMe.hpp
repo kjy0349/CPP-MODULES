@@ -10,9 +10,9 @@ class PmergeMe {
     private:
         std::deque<int> deq;
         std::vector<int> vtr;
+        PmergeMe(void);
         int K;
     public:
-        PmergeMe(void);
         PmergeMe(const PmergeMe& obj);
         PmergeMe(int K);
         ~PmergeMe();
