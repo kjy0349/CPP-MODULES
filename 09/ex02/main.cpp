@@ -22,7 +22,6 @@ int main(int argc, char *argv[]) {
         std::cout << "Error\n";
         return -1;
     }
-    if (K <= 0) std::cout << "Error\n";
     PmergeMe a = PmergeMe(K);
     long sort_time;
     std::cout << "Before:   ";

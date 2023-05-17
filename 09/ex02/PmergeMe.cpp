@@ -10,7 +10,10 @@ PmergeMe::PmergeMe(const PmergeMe& obj) {
 }
 
 PmergeMe::PmergeMe(int K) {
-    this->K = K;
+    if (K <= 0) {
+        std::cout << "Invaild Input. init K to 5.\n";
+        this->K = 5;
+    } else this->K = K;
 }
 
 PmergeMe::~PmergeMe() {
