@@ -5,6 +5,7 @@ int main(int argc, char *argv[]) {
     std::stringstream ss;
     std::vector<int> input_vec;
     std::deque<int> input_deq;
+    std::string tmp;
     int elem = 0;
     int K = 5;
     for (int i = 1; i < argc; i++) {
@@ -17,6 +18,11 @@ int main(int argc, char *argv[]) {
         }
         input_vec.push_back(elem);
         input_deq.push_back(elem);
+        ss >> tmp;
+        if (!ss.fail()) {
+            std::cout << "Error\n";
+            return -1;
+        }
     }
     if (input_vec.empty() || input_deq.empty()) {
         std::cout << "Error\n";
