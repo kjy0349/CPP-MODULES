@@ -3,7 +3,7 @@ SRC = ./main.cpp ./RPN.cpp
 CC = c++
 NAME = RPN
 
-CPPFLAGS = -Wall -Wextra -Werror -g -std=c++98
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 OBJS = $(SRC:.cpp=.o)
 
 

@@ -3,7 +3,7 @@ SRC = ./main.cpp ./BitcoinExchange.cpp
 CC = c++
 NAME = btc
 
-CPPFLAGS = -Wall -Wextra -Werror -g -std=c++98
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 OBJS = $(SRC:.cpp=.o)
 
 

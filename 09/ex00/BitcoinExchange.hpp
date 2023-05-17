@@ -9,7 +9,10 @@
 class BitcoinExchange
 {
 	private:
-		std::map<std::string, float, std::greater<std::string> > db;
+		struct Greater {
+			bool operator()(const std::string& first, const std::string& second) const;
+		};
+		std::map<std::string, float, BitcoinExchange::Greater> db;
 	public:
 		BitcoinExchange(void);
 		BitcoinExchange(const BitcoinExchange& obj);

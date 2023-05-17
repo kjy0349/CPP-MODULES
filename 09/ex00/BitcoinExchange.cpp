@@ -1,5 +1,9 @@
 #include "BitcoinExchange.hpp"
 
+bool BitcoinExchange::Greater::operator()(const std::string& first, const std::string& second) const {
+        return first.compare(second) > 0;
+}
+
 const char * BitcoinExchange::InvaildFile::what(void) const throw()
 {
 	return "Error: Invaild file..";
