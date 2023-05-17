@@ -6,6 +6,7 @@ int main(int argc, char *argv[]) {
     std::vector<int> input_vec;
     std::deque<int> input_deq;
     int elem = 0;
+    int K = 5;
     for (int i = 1; i < argc; i++) {
         ss.clear();
         ss.str(argv[i]);
@@ -21,7 +22,8 @@ int main(int argc, char *argv[]) {
         std::cout << "Error\n";
         return -1;
     }
-    PmergeMe a = PmergeMe(5);
+    if (K <= 0) std::cout << "Error\n";
+    PmergeMe a = PmergeMe(K);
     long sort_time;
     std::cout << "Before:   ";
     for (std::vector<int>::iterator it = input_vec.begin(); it != input_vec.end(); it++) {
@@ -38,8 +40,8 @@ int main(int argc, char *argv[]) {
     for (std::vector<int>::iterator it = input_vec.begin(); it != input_vec.end(); it++) {
         std::cout << *it << " ";
     }
-    sort_time = end_v.tv_usec - start_v.tv_usec;
+    sort_time = (end_v.tv_sec - start_v.tv_sec) * 1000000 + (end_v.tv_usec - start_v.tv_usec);
     std::cout << "\nTime to process a range of " << input_vec.size() << " elements with " << "std::vector" << " : " << sort_time << " us\n";
-    sort_time = end_d.tv_usec - start_d.tv_usec;
+    sort_time = (end_d.tv_sec - start_d.tv_sec) * 1000000 + (end_d.tv_usec - start_d.tv_usec);
     std::cout << "Time to process a range of " << input_deq.size() << " elements with " << "std::deque" << "  : " << sort_time << " us\n";
 }

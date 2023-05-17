@@ -117,7 +117,7 @@ void BitcoinExchange::calculate(std::string input) {
 		checked = false;
 		target = line.find('|', 0);
 		if (target == std::string::npos) {
-			std::cout << "Error: Invaild input.\n";
+			std::cout << "Error: bad input => " << line << '\n';
 			continue;
 		}
 		date = line.substr(0, target);
@@ -135,7 +135,7 @@ void BitcoinExchange::calculate(std::string input) {
 				std::cout << "Error: too large a number.\n";
 				continue;
 			} else if (!validate_date(date)) {
-				std::cout << "Error: bad input => " + date + "\n";
+				std::cout << "Error: bad input => " << date << '\n';
 				continue;
 			} else if (ss.fail()) {
 				std::cout << "Error: Invaild input.\n";

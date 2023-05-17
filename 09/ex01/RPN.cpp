@@ -58,7 +58,11 @@ long Rpn::calculate(std::string oper) {
     } else if (oper.compare("*") == 0) {
         return op1 * op2;
     } else if (oper.compare("/") == 0) {
-        return op1 / op2;
+        if (op2 == 0) {
+            flag = false;
+            return -1;
+        }
+        else return op1 / op2;
     } else return 0;
 }
 
